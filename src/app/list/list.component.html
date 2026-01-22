@@ -1,0 +1,55 @@
+<div class="content">
+  <div class="row">
+    <div class="col-md-8 m-5 mt-1">
+
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8  small full-width mb-1">
+
+        <!-- Sl No -->
+        <ng-container matColumnDef="slno">
+          <th mat-header-cell *matHeaderCellDef> Sl No </th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            {{ i + 1 }}
+          </td>
+        </ng-container>
+
+        <!-- Title -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.title }}
+          </td>
+        </ng-container>
+
+        <!-- Status -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.completed | statusDisplay }}
+          </td>
+        </ng-container>
+
+        <!-- Action -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Action </th>
+          <td mat-cell *matCellDef="let row">
+            <button mat-button color="primary" (click)="editTask(row.id)">
+              Edit
+            </button>
+            <button mat-button color="warn" (click)="deleteTask(row.id)">
+              Delete
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Header & Row -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]" [pageSize]="10" showFirstLastButtons>
+      </mat-paginator>
+
+    </div>
+  </div>
+</div>

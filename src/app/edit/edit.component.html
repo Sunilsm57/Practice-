@@ -1,0 +1,58 @@
+<div class="content">
+    <div class="row">
+        <div class="col-md-6 m-5 mt-0">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Edit Todo</mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div *ngIf="isLoading" class="loading-spinner">
+                        <p>Loading todo...</p>
+                    </div>
+
+                    <form [formGroup]="editForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading && todo">
+                        <!-- Title Field -->
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Title</mat-label>
+                            <input matInput formControlName="title" placeholder="Enter todo title">
+                            <mat-error *ngIf="editForm.get('title')?.hasError('required')">
+                                Title is required
+                            </mat-error>
+                            <mat-error *ngIf="editForm.get('title')?.hasError('minlength')">
+                                Title must be at least 3 characters
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- Completed Checkbox -->
+                        <div class="checkbox-container">
+                            <mat-checkbox formControlName="completed">
+                                Mark as completed
+                            </mat-checkbox>
+                        </div>
+
+                        <!-- Display current status -->
+                        <div class="status-info">
+                            <p><strong>Current Status:</strong>
+                                <span
+                                    [ngClass]="{'status-active': !editForm.get('completed')?.value, 'status-closed': editForm.get('completed')?.value}">
+                                    {{ editForm.get('completed')?.value ? 'Closed' : 'Active' }}
+                                </span>
+                            </p>
+                        </div>
+                    </form>
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="onSubmit()"
+                        [disabled]="editForm?.invalid || isSubmitting">
+                        {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
+                    </button>
+                    <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="isSubmitting">
+                        Cancel
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>
