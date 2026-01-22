@@ -7,8 +7,6 @@ services:
     publishPath: dist/project/browser
     rootDir: ./
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: PORT
         value: 3000
       - key: API_URL
