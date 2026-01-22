@@ -4,10 +4,12 @@ services:
     env: node
     buildCommand: npm install && npm run build
     startCommand: npm run serve:ssr:project
+    publishPath: dist/project/browser
+    rootDir: ./
     envVars:
       - key: NODE_ENV
         value: production
-    rootDir: ./
-    routes:
-      - path: /
-        destination: /dist/project/browser/index.html
+      - key: PORT
+        value: 3000
+      - key: API_URL
+        value: https://jsonplaceholder.typicode.com
