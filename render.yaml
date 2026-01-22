@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: angular-todo-app
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm run serve:ssr:project
+    envVars:
+      - key: NODE_ENV
+        value: production
+    rootDir: ./
+    routes:
+      - path: /
+        destination: /dist/project/browser/index.html
