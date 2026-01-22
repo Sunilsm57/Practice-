@@ -2,7 +2,7 @@ services:
   - type: web
     name: angular-todo-app
     env: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm run serve:ssr:project
     publishPath: dist/project/browser
     rootDir: ./
