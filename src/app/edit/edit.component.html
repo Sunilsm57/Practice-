@@ -45,7 +45,7 @@
 
                 <mat-card-actions>
                     <button mat-raised-button color="primary" (click)="onSubmit()"
-                        [disabled]="editForm?.invalid || isSubmitting">
+                        [disabled]="editForm.invalid || isSubmitting">
                         {{ isSubmitting ? 'Saving...' : 'Save Changes' }}
                     </button>
                     <button mat-raised-button color="warn" (click)="onCancel()" [disabled]="isSubmitting">
