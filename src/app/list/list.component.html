@@ -1,55 +1,41 @@
 <div class="content">
-  <div class="row">
-    <div class="col-md-8 m-5 mt-1">
+  <div class="container mt-5">
+    <h2 class="mb-4">Products</h2>
+    <div class="row" *ngIf="todos.length > 0; else noData">
+      <div class="col-md-4 mb-4" *ngFor="let product of todos; let i = index">
+        <mat-card class="product-card h-100">
+          <mat-card-header>
+            <div class="product-image-container">
+              <img [src]="product.image" [alt]="product.title" class="product-image">
+            </div>
+          </mat-card-header>
 
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8  small full-width mb-1">
+          <mat-card-content>
+            <h3 class="product-title">{{ product.title }}</h3>
+            <p class="product-category"><strong>Category:</strong> {{ product.category }}</p>
+            <p class="product-price"><strong>Price:</strong> ${{ product.price }}</p>
+            <p class="product-description">{{ product.description }}</p>
+            <div class="product-rating" *ngIf="product.rating">
+              <strong>Rating:</strong> {{ product.rating.rate }}/5 ({{ product.rating.count }} reviews)
+            </div>
+          </mat-card-content>
 
-        <!-- Sl No -->
-        <ng-container matColumnDef="slno">
-          <th mat-header-cell *matHeaderCellDef> Sl No </th>
-          <td mat-cell *matCellDef="let row; let i = index">
-            {{ i + 1 }}
-          </td>
-        </ng-container>
-
-        <!-- Title -->
-        <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef> Title </th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.title }}
-          </td>
-        </ng-container>
-
-        <!-- Status -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef> Status </th>
-          <td mat-cell *matCellDef="let row">
-            {{ row.completed | statusDisplay }}
-          </td>
-        </ng-container>
-
-        <!-- Action -->
-        <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef> Action </th>
-          <td mat-cell *matCellDef="let row">
-            <button mat-button color="primary" (click)="editTask(row.id)">
+          <mat-card-actions class="action-buttons">
+            <button mat-raised-button color="primary" (click)="editTask(product.id)" class="btn-edit">
               Edit
             </button>
-            <button mat-button color="warn" (click)="deleteTask(row.id)">
+            <button mat-raised-button color="warn" (click)="deleteTask(product.id)" class="btn-delete">
               Delete
             </button>
-          </td>
-        </ng-container>
-
-        <!-- Header & Row -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[10, 25, 50]" [pageSize]="10" showFirstLastButtons>
-      </mat-paginator>
-
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
+
+    <ng-template #noData>
+      <div class="alert alert-info text-center mt-5">
+        <p>No products available</p>
+      </div>
+    </ng-template>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServicesService, Todo } from '../services.service';
+import { ServicesService, Product } from '../services.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,7 +27,7 @@ import { CommonModule } from '@angular/common';
 export class EditComponent implements OnInit {
 
   id!: number;
-  todo!: Todo;
+  product!: Product;
   editForm!: FormGroup;
   isLoading = false;
   isSubmitting = false;
@@ -43,30 +43,36 @@ export class EditComponent implements OnInit {
     console.log('entry to edit');
 
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('Todo id:', this.id);
+    console.log('Product id:', this.id);
 
     this.initializeForm();
-    this.getTodoData();
+    this.getProductData();
   }
 
   initializeForm() {
     this.editForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
-      completed: [false]
+      price: ['', [Validators.required, Validators.min(0)]],
+      category: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      image: ['', [Validators.required]]
     });
   }
 
-  getTodoData() {
+  getProductData() {
     this.isLoading = true;
     this.service.getTodoById(this.id).subscribe({
       next: (res) => {
-        this.todo = res;
+        this.product = res;
         this.editForm.patchValue({
           title: res.title,
-          completed: res.completed
+          price: res.price,
+          category: res.category,
+          description: res.description,
+          image: res.image
         });
         this.isLoading = false;
-        console.log('Todo data:', res);
+        console.log('Product data:', res);
       },
       error: (err) => {
         console.error(err);
@@ -81,20 +87,23 @@ export class EditComponent implements OnInit {
     }
 
     this.isSubmitting = true;
-    const updatedTodo: Todo = {
-      ...this.todo,
+    const updatedProduct: Product = {
+      ...this.product,
       title: this.editForm.get('title')?.value,
-      completed: this.editForm.get('completed')?.value
+      price: this.editForm.get('price')?.value,
+      category: this.editForm.get('category')?.value,
+      description: this.editForm.get('description')?.value,
+      image: this.editForm.get('image')?.value
     };
 
-    this.service.updateTodo(this.id, updatedTodo).subscribe({
+    this.service.updateTodo(this.id, updatedProduct).subscribe({
       next: (res) => {
-        console.log('Todo updated successfully:', res);
+        console.log('Product updated successfully:', res);
         this.isSubmitting = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.error('Error updating todo:', err);
+        console.error('Error updating product:', err);
         this.isSubmitting = false;
       }
     });

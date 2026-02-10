@@ -1,28 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
-import { DoneTodo, ServicesService, Todo } from './services.service';
-import { HttpClientModule } from '@angular/common/http';
-import { NgFor } from '@angular/common';
+import { ServicesService } from './services.service';
+import { AuthService } from './services/auth.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgFor, CommonModule } from '@angular/common';
 import { Subject, switchMap } from 'rxjs';
+import { ErrorInterceptor } from './services/error.interceptor';
+import { AuthInterceptor } from './services/auth.interceptor';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, HttpClientModule, NgFor],
+  imports: [RouterOutlet, FormsModule, HttpClientModule, NgFor, CommonModule, MatToolbarModule, MatButtonModule],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  isLoggedIn = false;
+  currentUsername = '';
 
-  // deleteTask(id: number) {
-  //   if (confirm('Are you sure you want to delete?')) {
-  //     this.services.deleteTodo(id).subscribe({
-  //       next: () => {
-  //         this.todos = this.todos.filter(t => t.id !== id);
-  //       },
-  //       error: (err) => console.error(err)
-  //     });
-  //   }
-  // }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    // Subscribe to auth status
+    this.authService.currentUser$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      this.currentUsername = user?.username || '';
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { DoneTodo, ServicesService, Todo } from '../services.service';
+import { DoneProduct, ServicesService, Product } from '../services.service';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { NgFor, CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 import { StatusDisplayPipe } from '../pipes/status-display.pipe';
 import { DeleteConfirmationDialogComponent } from '../dialogs/delete-confirmation-dialog.component';
 
@@ -13,14 +14,14 @@ import { DeleteConfirmationDialogComponent } from '../dialogs/delete-confirmatio
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [NgFor, MatTableModule, MatButtonModule, MatPaginatorModule, StatusDisplayPipe],
+  imports: [NgFor, CommonModule, MatTableModule, MatButtonModule, MatPaginatorModule, MatCardModule, StatusDisplayPipe],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
 
-  todos: Todo[] = []
-  DoneTodos: DoneTodo[] = []
+  todos: Product[] = []
+  DoneTodos: DoneProduct[] = []
   title = "Project";
   dataSource = new MatTableDataSource<any>();
   displayedColumns: string[] = ['slno', 'title', 'status', 'action'];
@@ -67,8 +68,8 @@ export class ListComponent {
     const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent, {
       width: '400px',
       data: {
-        title: 'Delete Todo',
-        message: 'Are you sure you want to delete this todo? This action cannot be undone.'
+        title: 'Delete Product',
+        message: 'Are you sure you want to delete this product? This action cannot be undone.'
       }
     });
 
@@ -76,11 +77,11 @@ export class ListComponent {
       if (result) {
         this.services.deleteTodo(id).subscribe({
           next: (res) => {
-            console.log('Todo deleted successfully');
+            console.log('Product deleted successfully');
             this.getTodoList();
           },
           error: (err) => {
-            console.error('Error deleting todo:', err);
+            console.error('Error deleting product:', err);
           }
         });
       }

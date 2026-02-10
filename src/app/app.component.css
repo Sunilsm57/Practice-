@@ -1,0 +1,32 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.user-info {
+    color: white;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.logout-btn {
+    color: white;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.logout-btn:hover {
+    opacity: 0.8;
+}

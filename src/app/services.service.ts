@@ -2,17 +2,29 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, retry } from 'rxjs';
 import { AppComponent } from './app.component';
-export interface Todo {
-  userId: number;
+export interface Product {
   id: number;
   title: string;
-  completed: boolean;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating?: {
+    rate: number;
+    count: number;
+  };
 }
-export interface DoneTodo {
-  userId: number;
+export interface DoneProduct {
   id: number;
   title: string;
-  completed: boolean;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating?: {
+    rate: number;
+    count: number;
+  };
 }
 @Injectable(
   {
@@ -23,13 +35,13 @@ export interface DoneTodo {
 export class ServicesService {
 
 
-  private API_URL = 'https://jsonplaceholder.typicode.com/todos';
+  private API_URL = 'https://fakestoreapi.com/products';
 
   constructor(private http: HttpClient) {
 
   }
-  getTodos(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.API_URL).pipe(
+  getTodos(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.API_URL).pipe(
       retry(2),
       catchError(error => {
         console.error('HTTP Error', error);
@@ -37,27 +49,27 @@ export class ServicesService {
       })
     );
   }
-  getTodoById(id: number): Observable<Todo> {
-    return this.http.get<Todo>(`${this.API_URL}/${id}`);
+  getTodoById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.API_URL}/${id}`);
   }
-  getCompletedTodos(): Observable<DoneTodo[]> {
-    return this.http.get<DoneTodo[]>(this.API_URL).pipe(
-      map(todos => todos.filter(todo => todo.completed)),
+  getCompletedTodos(): Observable<DoneProduct[]> {
+    return this.http.get<DoneProduct[]>(this.API_URL).pipe(
+      map(products => products.filter(product => product.price > 0)),
       catchError(() => of([]))
     );
   }
-  updateTodo(id: number, todo: Todo): Observable<Todo> {
-    return this.http.put<Todo>(`${this.API_URL}/${id}`, todo).pipe(
+  updateTodo(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.API_URL}/${id}`, product).pipe(
       catchError(error => {
-        console.error('Error updating todo', error);
-        return of(todo);
+        console.error('Error updating product', error);
+        return of(product);
       })
     );
   }
   deleteTodo(id: number): Observable<any> {
     return this.http.delete(`${this.API_URL}/${id}`).pipe(
       catchError(error => {
-        console.error('Error deleting todo', error);
+        console.error('Error deleting product', error);
         return of(null);
       })
     );

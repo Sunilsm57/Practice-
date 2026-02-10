@@ -1,2 +1,8 @@
-<h5></h5>
+<mat-toolbar color="primary" *ngIf="isLoggedIn" class="navbar">
+    <span class="app-title">Product Manager</span>
+    <span class="spacer"></span>
+    <span class="user-info">Welcome, {{ currentUsername }}!</span>
+    <button mat-button (click)="logout()" class="logout-btn">Logout</button>
+</mat-toolbar>
+
 <router-outlet></router-outlet>
