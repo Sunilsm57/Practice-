@@ -1,0 +1,95 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+mat-card-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+mat-card-title {
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+}
+
+mat-card-content {
+    padding: 0 16px 16px 16px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.register-button {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 12px;
+    border-radius: 4px;
+    border-left: 4px solid #c62828;
+}
+
+.error-message mat-error {
+    color: #c62828;
+    font-size: 14px;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.login-text {
+    text-align: center;
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.login-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.login-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
